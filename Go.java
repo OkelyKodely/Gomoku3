@@ -8,7 +8,10 @@ public class Go extends JPanel implements MouseListener, MouseMotionListener {
     Graphics g = null;
     String turn = "white";
     String board[][] = new String[19][19];
+    String wnner = "";
     JLabel turnLbl = new JLabel();
+    JLabel turnLbl2 = new JLabel();
+    JLabel winner = new JLabel();
     int x, y;    
     
     public Go() {
@@ -28,10 +31,13 @@ public class Go extends JPanel implements MouseListener, MouseMotionListener {
 
     public void paint(Graphics g) {
 
+        g.setColor(Color.GRAY);
+        g.fillRect(40, 40, 800, 800);
+
         g.setColor(new Color(200,150,55));
         g.fillRect(0, 0, 760, 760);
         
-        g.setColor(Color.gray);
+        g.setColor(Color.GRAY);
         for(int i=0; i<19; i++) {
             g.drawLine(0, i*40, 760, i*40);
         }
@@ -54,9 +60,16 @@ public class Go extends JPanel implements MouseListener, MouseMotionListener {
             }
         }
 
-        g.setColor(Color.LIGHT_GRAY);
-        g.drawOval(x*40-40+5, y*40-40+5, 30, 30);
+        if(!(x == 20 || y == 20)) {
+            g.setColor(Color.LIGHT_GRAY);
+            g.drawOval(x*40-40+5, y*40-40+5, 30, 30);
+        }
+            
         turnLbl.setText("TURN: " + turn);
+        turnLbl2.setText("TURN: " + turn);
+        
+        if(!wnner.equals(""))
+            winner.setText("WINNER is " + wnner);
     }
     
     @Override
@@ -69,12 +82,16 @@ public class Go extends JPanel implements MouseListener, MouseMotionListener {
         x = (int)((double)e.getX()/(double)40);
         y = (int)((double)e.getY()/(double)40) - 1;
         if(turn.equals("white")) {
-            g.setColor(Color.WHITE);
-            g.drawOval(x*40-40+5, y*40-40+5, 30, 30);
+            if(!(x == 20 || y == 20)) {
+                g.setColor(Color.WHITE);
+                g.drawOval(x*40-40+5, y*40-40+5, 30, 30);
+            }
         }
         if(turn.equals("black")) {
-            g.setColor(Color.BLACK);
-            g.drawOval(x*40-40+5, y*40-40+5, 30, 30);
+            if(!(x == 20 || y == 20)) {
+                g.setColor(Color.BLACK);
+                g.drawOval(x*40-40+5, y*40-40+5, 30, 30);
+            }
         }
         repaint();
     }
@@ -91,6 +108,7 @@ public class Go extends JPanel implements MouseListener, MouseMotionListener {
             initBoard();
             repaint();
             turn = "white";
+            winner.setText("");
         } else {
             if(turn.equals("white")) {
                 int x = (int)((double)e.getX()/(double)40);
@@ -102,6 +120,7 @@ public class Go extends JPanel implements MouseListener, MouseMotionListener {
                         board[y-1][x-1] = turn;
                         turn = "black";
                         turnLbl.setText("TURN: " + turn);
+                        turnLbl2.setText("TURN: " + turn);
                     }
                 }
             }
@@ -115,6 +134,7 @@ public class Go extends JPanel implements MouseListener, MouseMotionListener {
                         board[y-1][x-1] = turn;
                         turn = "white";
                         turnLbl.setText("TURN: " + turn);
+                        turnLbl2.setText("TURN: " + turn);
                     }
                 }
             }
@@ -151,7 +171,9 @@ public class Go extends JPanel implements MouseListener, MouseMotionListener {
                                     if(board[j][i+4].equals("white")) {
                                         JOptionPane.showMessageDialog(null, "WHITE wins! - 백 이김!");
                                         
-                                        turn = "white";
+                                        winner.setText("WINNER is white");
+
+                                        turn = "";
                                     }
                                 }
                             }
@@ -166,7 +188,9 @@ public class Go extends JPanel implements MouseListener, MouseMotionListener {
                                     if(board[j+4][i].equals("white")) {
                                         JOptionPane.showMessageDialog(null, "WHITE wins! - 백 이김!");
                                         
-                                        turn = "white";
+                                        winner.setText("WINNER is white");
+
+                                        turn = "";
                                     }
                                 }
                             }
@@ -181,7 +205,9 @@ public class Go extends JPanel implements MouseListener, MouseMotionListener {
                                     if(board[j+4][i-4].equals("white")) {
                                         JOptionPane.showMessageDialog(null, "WHITE wins! - 백 이김!");
                                         
-                                        turn = "white";
+                                        winner.setText("WINNER is white");
+
+                                        turn = "";
                                     }
                                 }
                             }
@@ -196,7 +222,9 @@ public class Go extends JPanel implements MouseListener, MouseMotionListener {
                                     if(board[j+4][i+4].equals("white")) {
                                         JOptionPane.showMessageDialog(null, "WHITE wins! - 백 이김!");
                                         
-                                        turn = "white";
+                                        winner.setText("WINNER is white");
+
+                                        turn = "";
                                     }
                                 }
                             }
@@ -211,7 +239,9 @@ public class Go extends JPanel implements MouseListener, MouseMotionListener {
                                     if(board[j][i+4].equals("black")) {
                                         JOptionPane.showMessageDialog(null, "BLACK wins! - 흑 이김!");
                                         
-                                        turn = "white";
+                                        winner.setText("WINNER is white");
+
+                                        turn = "";
                                     }
                                 }
                             }
@@ -226,7 +256,9 @@ public class Go extends JPanel implements MouseListener, MouseMotionListener {
                                     if(board[j+4][i].equals("black")) {
                                         JOptionPane.showMessageDialog(null, "BLACK wins! - 흑 이김!");
                                         
-                                        turn = "white";
+                                        winner.setText("WINNER is black");
+
+                                        turn = "";
                                     }
                                 }
                             }
@@ -241,7 +273,9 @@ public class Go extends JPanel implements MouseListener, MouseMotionListener {
                                     if(board[j+4][i-4].equals("black")) {
                                         JOptionPane.showMessageDialog(null, "BLACK wins! - 흑 이김!");
                                         
-                                        turn = "white";
+                                        winner.setText("WINNER is black");
+
+                                        turn = "";
                                     }
                                 }
                             }
@@ -256,7 +290,9 @@ public class Go extends JPanel implements MouseListener, MouseMotionListener {
                                     if(board[j+4][i+4].equals("black")) {
                                         JOptionPane.showMessageDialog(null, "BLACK wins! - 흑 이김!");
                                         
-                                        turn = "white";
+                                        winner.setText("WINNER is black");
+
+                                        turn = "";
                                     }
                                 }
                             }
@@ -281,10 +317,9 @@ public class Go extends JPanel implements MouseListener, MouseMotionListener {
         
         JPanel pp = new JPanel();
         pp.setLayout(null);
-        pp.setBackground(Color.WHITE);
         pp.setBounds(j.getBounds());
-        
-        this.setBounds(40, 40, 760, 760);
+       
+        this.setBounds(40, 40, 800, 800);
         
         pp.add(this);
         
@@ -302,24 +337,33 @@ public class Go extends JPanel implements MouseListener, MouseMotionListener {
         j.setVisible(true);
         j.setExtendedState(j.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 
-        setGraphics();
+        setGraphics(pp);
         
         j.addMouseListener(this);
         j.addMouseMotionListener(this);
     }
     
-    void setGraphics() {
+    void setGraphics(JPanel pp) {
         
         g = this.getGraphics();
+        
+        turnLbl2.setBounds(1000, 500, 300, 200);
+        turnLbl2.setText("TURN: " + turn);
+        turnLbl2.setFont(new Font("arial", Font.BOLD, 40));
+        pp.add(turnLbl2);
+ 
+        winner.setBounds(1000, 700, 300, 200);
+        winner.setForeground(Color.red);
+        winner.setFont(new Font("arial", Font.BOLD, 20));
+        pp.add(winner);
     }
     
     public static void main(String[] args) {
-        
          try {
             SwingUtilities.invokeAndWait(new Runnable() {
                 @Override
                 public void run() {
-                    Go g = new Go();
+                    new Go();
                 }
             });
         } catch(Exception e) {}
