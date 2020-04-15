@@ -1,2 +1,2 @@
-# go3
-go3 is the bestest, in javar
+# Gomoku3
+Gomoku3 is the bestest, in javar
